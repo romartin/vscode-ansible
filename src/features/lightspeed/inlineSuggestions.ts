@@ -330,6 +330,7 @@ function retrieveActivityIdFromTracker(
     .activityId;
 }
 
+// TODO: ENTRY POINT!!
 async function requestSuggestion(
   documentInfo: DocumentInfo,
   inlinePosition: InlinePosition,
@@ -954,7 +955,15 @@ function isInlineSuggestionDisplayed(): boolean {
 }
 
 function isInlineSuggestionPending(): boolean {
-  return isInlineSuggestionInProgress() && isInlineSuggestionDisplayed();
+  console.error(
+    "ROGER :: inlineSuggestionFeedbackIgnoredPending == " +
+      lightSpeedManager.apiInstance.inlineSuggestionFeedbackIgnoredPending,
+  );
+  return (
+    isInlineSuggestionInProgress() &&
+    isInlineSuggestionDisplayed() &&
+    !lightSpeedManager.apiInstance.inlineSuggestionFeedbackIgnoredPending
+  );
 }
 
 function isInlineSuggestionInProgress(): boolean {
@@ -978,7 +987,9 @@ export async function processInProgressSuggestion() {
 }
 
 async function rejectPendingSuggestion() {
+  console.error("ROGER :: Calling rejectPendingSuggestion ...");
   if (isInlineSuggestionPending() && checkSameEditor()) {
+    console.error("ROGER :: rejectPendingSuggestion");
     console.log(
       "[inline-suggestions] Send a REJECTED feedback for a pending suggestion.",
     );
@@ -989,7 +1000,9 @@ async function rejectPendingSuggestion() {
 }
 
 export async function ignorePendingSuggestion() {
+  console.error("ROGER :: Calling ignorePendingSuggestion ...");
   if (isInlineSuggestionPending()) {
+    console.error("ROGER :: ignorePendingSuggestion");
     console.log(
       "[inline-suggestions] Send a IGNORED feedback for a pending suggestion.",
     );

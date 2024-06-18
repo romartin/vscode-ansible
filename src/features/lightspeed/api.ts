@@ -99,6 +99,7 @@ export class LightSpeedAPI {
       console.error("Ansible Lightspeed instance is not initialized.");
       return {} as CompletionResponseParams;
     }
+    console.error("ROGER :: API - completionRequest1");
     console.log(
       `[ansible-lightspeed] Completion request sent to lightspeed: ${JSON.stringify(
         inputData,
@@ -121,6 +122,10 @@ export class LightSpeedAPI {
           timeout: ANSIBLE_LIGHTSPEED_API_TIMEOUT,
         },
       );
+      console.error(
+        "ROGER :: API - completionRequest2 - response.status = " +
+          response.status,
+      );
       if (
         response.status === 204 ||
         response.data.predictions.length === 0 ||
@@ -142,13 +147,16 @@ export class LightSpeedAPI {
       );
       return response.data;
     } catch (error) {
+      console.error("ROGER :: API - completionRequest3 - error = " + error);
       this._inlineSuggestionFeedbackIgnoredPending = false;
       const err = error as AxiosError;
       const mappedError: IError = mapError(err);
       vscode.window.showErrorMessage(mappedError.message ?? UNKNOWN_ERROR);
       return {} as CompletionResponseParams;
     } finally {
+      console.error("ROGER :: API - completionRequest4 - finally1");
       if (this._inlineSuggestionFeedbackIgnoredPending) {
+        console.error("ROGER :: API - completionRequest4 - finally2");
         this._inlineSuggestionFeedbackIgnoredPending = false;
         vscode.commands.executeCommand(
           LightSpeedCommands.LIGHTSPEED_SUGGESTION_HIDE,
@@ -171,6 +179,8 @@ export class LightSpeedAPI {
     ) {
       return {} as FeedbackResponseParams;
     }
+
+    console.error("ROGER :: API - feedbackRequest");
 
     const axiosInstance = await this.getApiInstance();
     if (axiosInstance === undefined) {

@@ -260,6 +260,7 @@ export async function activate(context: ExtensionContext): Promise<void> {
   // Listen for text selection changes
   context.subscriptions.push(
     vscode.window.onDidChangeTextEditorSelection(async () => {
+      console.error("ROGER :: onDidChangeTextEditorSelection");
       processInProgressSuggestion();
     }),
   );
@@ -277,6 +278,7 @@ export async function activate(context: ExtensionContext): Promise<void> {
   context.subscriptions.push(
     window.onDidChangeActiveTextEditor(
       async (editor: vscode.TextEditor | undefined) => {
+        console.error("ROGER :: onDidChangeActiveTextEditor");
         await updateAnsibleStatusBar(
           metaData,
           lightSpeedManager,
@@ -302,6 +304,7 @@ export async function activate(context: ExtensionContext): Promise<void> {
   context.subscriptions.push(
     workspace.onDidChangeTextDocument(
       (event: vscode.TextDocumentChangeEvent) => {
+        console.error("ROGER :: onDidChangeTextDocument1");
         if (
           event.document === vscode.window.activeTextEditor?.document &&
           event.contentChanges.length > 0 &&
@@ -315,6 +318,7 @@ export async function activate(context: ExtensionContext): Promise<void> {
   context.subscriptions.push(
     workspace.onDidChangeTextDocument(
       (event: vscode.TextDocumentChangeEvent) => {
+        console.error("ROGER :: onDidChangeTextDocument2");
         if (
           event.document === vscode.window.activeTextEditor?.document &&
           event.contentChanges.length > 0 &&
@@ -345,12 +349,14 @@ export async function activate(context: ExtensionContext): Promise<void> {
 
   context.subscriptions.push(
     workspace.onDidChangeTextDocument((e: vscode.TextDocumentChangeEvent) => {
+      console.error("ROGER :: onDidChangeTextDocument3");
       inlineSuggestionTextDocumentChangeHandler(e);
     }),
   );
 
   context.subscriptions.push(
     workspace.onDidChangeTextDocument((e: vscode.TextDocumentChangeEvent) => {
+      console.error("ROGER :: onDidChangeTextDocument4");
       inlineSuggestionTextDocumentChangeHandler(e);
     }),
   );
